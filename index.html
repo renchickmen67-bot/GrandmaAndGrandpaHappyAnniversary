@@ -2,13 +2,11 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <!-- ИСПРАВЛЕНИЕ: убрали maximum-scale и user-scalable, чтобы телефон нормально масштабировал страницу -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Годовщина: Бабушка и Дедушка</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
   <canvas id="canvas"></canvas>
 
   <div class="overlay-text fade-in">
@@ -16,7 +14,8 @@
     <p>Ваша любовь — самый тёплый свет в нашей жизни.</p>
   </div>
 
-  <div class="controls-container">
+  <!-- Кнопки сразу под текстом -->
+  <div class="controls-container under-text">
     <button class="btn-add-hearts" onclick="addExtraHearts()">✨ Добавить сердечек</button>
     <button class="btn-menu" onclick="toggleMenu()">📦 Меню подарков</button>
   </div>
@@ -29,7 +28,8 @@
     <div class="gift-grid" id="gifts-container"></div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="scripts.js"></script>
 </body>
+
 </html>
 
