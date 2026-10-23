@@ -9,23 +9,20 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-
-  /* ИСПРАВЛЕНИЕ 1: убрали overflow: hidden, чтобы страница скроллилась */
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  overflow-x: hidden;
 }
 
 #canvas {
-  position: fixed; /* fixed вместо absolute — фон всегда на весь экран */
+  position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
   touch-action: none;
   z-index: 1;
-  object-fit: cover;
 }
 
 .overlay-text {
@@ -59,37 +56,30 @@ p {
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* ИСПРАВЛЕНИЕ 2: кнопки теперь адаптивные */
 .controls-container {
-  position: sticky; /* липкое позиционирование */
+  position: absolute; 
   z-index: 20;
   display: flex; 
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
   width: 100%;
-  max-width: 400px;
-  padding: 15px;
+  padding: 0 15px;
   align-items: center;
-
-  /* Прижимаем к верху, но оставляем отступ под шапку (если она появится) */
-  top: 20px; 
 }
 
-/* На ПК — кнопки снизу, а не сверху */
-@media (min-width: 768px) {
-  .controls-container {
-    top: auto;
-    bottom: 40px;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 15px;
-  }
+/* Версия для кнопок ПОД текстом (центрованная, сразу под поздравлением) */
+.controls-container.under-text {
+  top: auto;
+  bottom: auto;
+  /* Сдвигаем вниз от центра: примерно на высоту текста + отступ */
+  top: calc(50% + 80px);
+  transform: none;
 }
 
 button {
   width: 100%;
-  max-width: 280px;
-  padding: 14px; 
+  max-width: 300px;
+  padding: 16px; 
   border: none; 
   border-radius: 50px;
   font-size: 1rem; 
@@ -97,7 +87,6 @@ button {
   transition: transform 0.1s, box-shadow 0.3s;
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   font-weight: 600;
-  text-align: center;
 }
 
 button:hover { 
@@ -107,6 +96,15 @@ button:hover {
 
 .btn-add-hearts { background-color: #ff4757; color: white; }
 .btn-menu { background-color: #2ed573; color: white; }
+
+@media (min-width: 768px) {
+  .controls-container.under-text {
+    /* На планшетах/десктопе можно сделать в ряд, но всё ещё под текстом */
+    flex-direction: row;
+    top: calc(50% + 100px);
+    gap: 20px;
+  }
+}
 
 
 #menu-layer {
