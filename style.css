@@ -9,20 +9,23 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  height: 100vh;
+
+  /* ИСПРАВЛЕНИЕ 1: убрали overflow: hidden, чтобы страница скроллилась */
+  min-height: 100vh;
   width: 100vw;
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow-x: hidden;
 }
 
 #canvas {
-  position: absolute;
+  position: fixed; /* fixed вместо absolute — фон всегда на весь экран */
   top: 0; left: 0; width: 100%; height: 100%;
   touch-action: none;
   z-index: 1;
+  object-fit: cover;
 }
 
 .overlay-text {
@@ -56,33 +59,30 @@ p {
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* Вставь этот блок в style.css, заменив или дополнив существующий .controls-container */
-
+/* ИСПРАВЛЕНИЕ 2: кнопки теперь адаптивные */
 .controls-container {
-  position: absolute; 
+  position: sticky; /* липкое позиционирование */
   z-index: 20;
   display: flex; 
   flex-direction: column;
   gap: 12px;
   width: 100%;
+  max-width: 400px;
   padding: 15px;
   align-items: center;
+
+  /* Прижимаем к верху, но оставляем отступ под шапку (если она появится) */
+  top: 20px; 
 }
 
-/* Для телефонов (ширина до 768px) — кнопки сверху */
-@media (max-width: 768px) {
-  .controls-container {
-    top: 15px;
-    bottom: auto;
-  }
-}
-
-/* Для ПК (ширина от 768px) — кнопки снизу */
+/* На ПК — кнопки снизу, а не сверху */
 @media (min-width: 768px) {
   .controls-container {
     top: auto;
     bottom: 40px;
     flex-direction: row;
+    align-items: center;
+    padding: 0 15px;
   }
 }
 
