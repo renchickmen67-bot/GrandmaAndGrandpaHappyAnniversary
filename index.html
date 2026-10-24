@@ -28,7 +28,16 @@
     <div class="gift-grid" id="gifts-container"></div>
   </div>
 
+  <!-- Модальное окно (крупный план подарка) -->
+  <div id="gift-modal" class="gift-modal hidden">
+    <div class="modal-overlay" onclick="closeGiftModal()"></div>
+    <div class="modal-content">
+      <button class="btn-back" onclick="closeGiftModal()">← Назад</button>
+      <img id="modal-photo" class="modal-image" alt="Подарок">
+      <p id="modal-text" class="modal-wishes"></p>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
-
 </html>
