@@ -65,6 +65,7 @@ p {
   width: 100%;
   padding: 0 15px;
   align-items: center;
+  size: 500px;
 }
 
 /* Версия для кнопок ПОД текстом (центрованная, сразу под поздравлением) */
@@ -72,8 +73,11 @@ p {
   top: auto;
   bottom: auto;
   /* Сдвигаем вниз от центра: примерно на высоту текста + отступ */
-  top: calc(50% + 80px);
+  top: calc(60% + 90px);
   transform: none;
+  display: flex;
+  align-items: center;
+  
 }
 
 button {
@@ -97,14 +101,7 @@ button:hover {
 .btn-add-hearts { background-color: #ff4757; color: white; }
 .btn-menu { background-color: #2ed573; color: white; }
 
-@media (min-width: 768px) {
-  .controls-container.under-text {
-    /* На планшетах/десктопе можно сделать в ряд, но всё ещё под текстом */
-    flex-direction: row;
-    top: calc(50% + 100px);
-    gap: 20px;
-  }
-}
+
 
 
 #menu-layer {
@@ -204,7 +201,16 @@ button:hover {
   animation: popIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.gift-card.open .inline-card {
+.gift-card.open .inline-card 
+{
+    @media (min-width: 768px) {
+  .controls-container.under-text {
+    /* На планшетах/десктопе можно сделать в ряд, но всё ещё под текстом */
+    flex-direction: row;
+    top: calc(50% + 100px);
+    gap: 20px;
+  }
+}
   display: flex;
 }
 
@@ -251,3 +257,5 @@ img.inline-photo {
 @keyframes fall-local {
   to { transform: translate(calc(-200px + 400px * random()), 120vh); opacity: 0; }
 }
+
+
