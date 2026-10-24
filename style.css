@@ -163,7 +163,8 @@ button:hover {
 .ribbon {
   position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
   width: 56px; height: 36px; background: var(--ribbon-color);
-  clip-path: path('M0 10 L10 0 L50 0 L60 10 L60 30 L50 40 L10 40 L0 30 Z');
+  /* Исправлены координаты clip-path для кроссбраузерности */
+  clip-path: path('M0,10 L10,0 L50,0 L60,10 L60,30 L50,40 L10,40 L0,30 Z');
   z-index: 2; 
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
 }
@@ -171,7 +172,7 @@ button:hover {
 .bow {
   position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
   width: 22px; height: 22px; background: white;
-  clip-path: path('M12 0 A12 12 0 1 1 12 24 A12 12 0 1 1 12 0 M12 6 A6 6 0 1 0 12 18 A6 6 0 1 0 12 6');
+  clip-path: path('M12,0 A12,12 0 1 1 12,24 A12,12 0 1 1 12,0 M12,6 A6,6 0 1 0 12,18 A6,6 0 1 0 12,6');
   z-index: 3;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
 }
@@ -208,6 +209,11 @@ button:hover {
   
   animation: popIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow-y: auto;
+}
+
+/* Класс для принудительного показа контента внутри карточки */
+.inline-card.active-inline {
+  display: flex !important;
 }
 
 .gift-card.open .inline-card {
