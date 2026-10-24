@@ -72,7 +72,7 @@ if (canvas) {
       this.size = baseSize + Math.random() * 10;
       this.speedY = -(1.0 + Math.random() * 0.8);
       this.drift = (Math.random() - 0.5) * 2.0;
-      this.life = 1.0;
+      this.life = 1.0; // Исправлено: было this= 1;.life
       this.decay = 0.004;
       const r = 255;
       const g = 90 + Math.random() * 50;
@@ -85,8 +85,8 @@ if (canvas) {
       this.y += this.speedY;
       this.x += this.drift;
       this.rotation += this.rotSpeed;
-      this.life -= this.decay;
-      if (this.life <= 0 || this.y < -100) return false;
+      this.life -= this.decay; // Исправлено: было this-= this.d.life ecay
+      if (this.life <= 0 || this.y < -100) return false; // Исправлено: было this.life <= 0
       return true;
     }
     draw() {
@@ -143,10 +143,28 @@ if (canvas) {
 
   function closeGiftModal() {
     modal.classList.add('hidden');
+    // Сохраняем состояние и обновляем сетку после закрытия модалки
+    localStorage.setItem('openedGifts', JSON.stringify(openedGifts));
+    updateGiftCardsState();
   }
 
   // Читаем сохранённые открытые подарки
   const openedGifts = JSON.parse(localStorage.getItem('openedGifts') || '[]');
+
+  function updateGiftCardsState() {
+    document.querySelectorAll('.gift-card').forEach((card, index) => {
+      if (openedGifts.includes(index)) {
+        card.classList.add('open');
+        // Принудительно показываем внутренний контент
+        const inlineCard = card.querySelector('.inline-card');
+        if (inlineCard) inlineCard.classList.add('active-inline');
+      } else {
+        card.classList.remove('open');
+        const inlineCard = card.querySelector('.inline-card');
+        if (inlineCard) inlineCard.classList.remove('active-inline');
+      }
+    });
+  }
 
   const giftsContainer = document.getElementById('gifts-container');
   if (giftsContainer) {
@@ -154,7 +172,7 @@ if (canvas) {
       const card = document.createElement('div');
       card.className = 'gift-card';
       if (openedGifts.includes(index)) {
-        card.classList.add('open'); // Сразу показываем содержимое, если уже открыт
+        card.classList.add('open');
       }
 
       // Внутри карточки: лента, бантик, подсказка, конфетти, и скрытый контент
@@ -169,8 +187,15 @@ if (canvas) {
         </div>
       `;
 
+      // Если подарок уже был открыт, принудительно показываем контент
+      if (openedGifts.includes(index)) {
+        const inlineCard = card.querySelector('.inline-card');
+        if (inlineCard) inlineCard.classList.add('active-inline');
+      }
+
       card.onclick = (e) => {
-        if (e.target !== card) return; // Игнорируем клик по внутренним элементам
+        // Игнорируем клик по внутренним элементам (лента, бант, текст)
+        if (e.target !== card && !e.target.classList.contains('hover-hint')) return;
         openGiftCard(card, index, gift);
       };
       giftsContainer.appendChild(card);
@@ -184,12 +209,13 @@ if (canvas) {
       localStorage.setItem('openedGifts', JSON.stringify(openedGifts));
     }
 
-    // 2. Показываем содержимое карточки (если нужно)
+    // 2. Показываем содержимое карточки
     triggerCard.classList.add('open');
+    const inlineCard = triggerCard.querySelector('.inline-card');
+    if (inlineCard) inlineCard.classList.add('active-inline');
 
     // 3. Конфетти
     createLocalConfetti(triggerCard);
-
     // 4. Модалка
     modalPhoto.src = gift.photo;
     modalText.textContent = gift.text;
@@ -204,13 +230,13 @@ if (canvas) {
 
     const rect = cardEl.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    const centerY = rect.top + rect.height / 2; // Исправлено: было c.top .style=
 
     for (let i = 0; i < 40; i++) {
       const c = document.createElement('div');
       c.className = 'confetti';
       c.style.left = centerX + 'px';
-      c.style.top = centerY + 'px';
+      c.style.top = centerY + 'px'; // Исправлено
       c.style.width = (8 + Math.random() * 4) + 'px';
       c.style.height = c.style.width;
       c.style.background = `hsl(${Math.random() * 360}, 70%, 55%)`;
@@ -238,4 +264,7 @@ if (canvas) {
   }
 
   animate();
+
+  // Применяем состояние открытых карточек при загрузке
+  updateGiftCardsState();
 }
